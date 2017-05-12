@@ -98,3 +98,35 @@ public class MainActivity$$Proxy implements IProxy<MainActivity>{
 > ​        compiler 依赖Annotation
 >
 > ​       app 依赖 Annotation/api/ apt project(':compiler')
+
+### 实现Annotation对应的 Module
+
+1. 创建Java项目
+2. 创建两个注解
+
+```java
+@Target({
+        ElementType.FIELD,
+        ElementType.PARAMETER
+})
+@Retention(
+        RetentionPolicy.CLASS
+)
+public @interface BindView {
+    int value() default View.NO_ID;
+}
+```
+
+```java
+@Target({
+        ElementType.METHOD
+})
+@Retention(
+        RetentionPolicy.CLASS
+)
+public @interface Click {
+    int value() default View.NO_ID;
+}
+```
+
+> 注： View.NO_ID = -1; 默认的控件id
