@@ -56,7 +56,7 @@ public void show(View view){
 }
 ```
 
- 	3. 生成的代理类（实际就是我们没有写的那些findViewById）
+       	3. 生成的代理类（实际就是我们没有写的那些findViewById）
 
 ```java
 public class MainActivity$$Proxy implements IProxy<MainActivity>{
@@ -130,3 +130,15 @@ public @interface Click {
 ```
 
 > 注： View.NO_ID = -1; 默认的控件id
+
+### 实现Compiler对应的Module
+
+#### 依赖的库
+
+* compile 'com.squareup:javapoet:1.7.0'
+* compile 'com.google.auto.service:auto-service:1.0-rc2'
+
+> 注：javapoet 是square 公司开发的能够快速生成java类的库
+>
+> auto-service 是为了帮助我们实现 META-INF/services/javax.annotation.processing.Processor 文件
+
