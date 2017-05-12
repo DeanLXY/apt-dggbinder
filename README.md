@@ -190,3 +190,95 @@ pulic class DggProcessor extends AbstractProcessor{
 4. process方法
 
    > AbstractProcessor的核心方法，用于生成对应的代理类
+
+   * 直观解读
+
+   ```java
+   public class MainActivity extends Activity{
+   @BindView(R.id.tv)
+     TextView textView;
+     public void onCreate(Bundle onSaveInstance){
+       super.onCreate(onSaveInstance);
+       setContentView(R.layout.activity_main);
+       
+       // Note: 这里还没有做注入
+       //在添加完@BindView的注解后，直接在build中点击rebuild
+     }
+   }
+   ```
+
+   ​	
+
+   ***
+
+   将上面的代码自己生成自己的代理类。大概是↓这个样子
+
+   ```java
+   public class MainActivity$$Proxy implements IProxy<MainActivity>{
+     public void inject(MainActivity activity,View root){
+       activity.textView = (TextView)root.findViewById(R.id.tv);
+       ...
+     }
+   }
+   ```
+
+   > 注：此时生成的代理类是自己的项目是相互独立的
+
+   ​
+
+   #### IProxy介绍
+
+   > 这个是为了以后关联项目与代理类的时候方便调用inject方法做注入
+
+   * 实现
+
+   ```java
+   public interface IProxy<T>{
+     public void inject(T target,View root);
+   }
+   ```
+
+   ​
+
+   代理类生成
+
+   [代理类生成请参考square的生成方法](https://github.com/square/javapoet)
+
+   Example
+
+   ```java
+   package com.example.helloworld;
+
+   public final class HelloWorld {
+     public static void main(String[] args) {
+       System.out.println("Hello, JavaPoet!");
+     }
+   }
+   ```
+
+   ↓
+
+   ```java
+   MethodSpec main = MethodSpec.methodBuilder("main")
+       .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+       .returns(void.class)
+       .addParameter(String[].class, "args")
+       .addStatement("$T.out.println($S)", System.class, "Hello, JavaPoet!")
+       .build();
+
+   TypeSpec helloWorld = TypeSpec.classBuilder("HelloWorld")
+       .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+       .addMethod(main)
+       .build();
+
+   JavaFile javaFile = JavaFile.builder("com.example.helloworld", helloWorld)
+       .build();
+
+   javaFile.writeTo(System.out);
+   ```
+
+   ​
+
+   #### process方法继续介绍
+
+   ​
