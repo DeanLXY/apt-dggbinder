@@ -50,7 +50,7 @@ public class MainActivity extends Activity{
 @BindView(R.id.tv)
 TextView textView;
 
-@OnClick(R.id.btn)
+@Click(R.id.btn)
 public void show(View view){
   // do sth
 }
