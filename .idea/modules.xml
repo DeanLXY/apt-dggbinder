@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/DggBind.iml" filepath="$PROJECT_DIR$/DggBind.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dggannotation/dggannotation.iml" filepath="$PROJECT_DIR$/dggannotation/dggannotation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dggapi/dggapi.iml" filepath="$PROJECT_DIR$/dggapi/dggapi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dggcompiler/dggcompiler.iml" filepath="$PROJECT_DIR$/dggcompiler/dggcompiler.iml" />
+    </modules>
+  </component>
+</project>
