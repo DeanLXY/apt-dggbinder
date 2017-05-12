@@ -281,4 +281,40 @@ pulic class DggProcessor extends AbstractProcessor{
 
    #### process方法继续介绍
 
-   ​
+   ##### Element介绍
+
+   > 在注解处理器的世界里，整个java代码被结构化了，每一部分都是一个Element对象，也就是说每一部分都被当做一个对象看待
+
+   ```java
+   package com.example; //PackageElement
+
+   public class Foo { // TypeElement
+
+       private int a; // VariableElement
+       private Foo other; // VariableElement
+
+       public Foo() {} // ExecuteableElement
+
+       public void setA( // ExecuteableElement
+               int newA // TypeElement
+       ) {
+       }
+   }
+
+   ```
+
+   * ExecuteableElement：可以表示一个普通方法、构造方法、初始化方法（静态和实例）。
+   * PackageElement：代表一个包名。
+   * TypeElement：代表一个类、接口。
+   * VariableElement：代表一个字段、枚举常量、方法或构造方法的参数、本地变量、或异常参数等。
+   * Element：上述所有元素的父接口，代表源码中的每一个元素。
+
+   你可以通过以下两个方法获取一个元素的父元素和子元素
+
+   > ```
+   >  Element getEnclosingElement();  //获取父元素
+   >  List<? extends Element> getEnclosedElements(); //获取子元素
+   > ```
+
+   * 一个Field的父元素是当前类
+   * 一个类的子元素是当前类的方法和字段
