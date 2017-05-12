@@ -83,7 +83,18 @@ public class MainActivity$$Proxy implements IProxy<MainActivity>{
 1. annotation --------声明的注解Module（Java项目）
 2. compiler     -------- 解析注解的Module（Java项目），不需要打包到apk中
 3. api                -------- 关联项目与compiler 的Module（一般为Android项目，原因主要是涉及 Activity/View/Fragment 组件）
+4. app               ====== 我们自己的项目
 
-Q: 为什么要使用三个Module来实现
+> Q: 为什么要使用三个Module来实现
+>
+> A: compiler是不需要打包进去的，它的目的仅仅是在build的时候帮助我们创建代理类，也可以理解为帮我们写我们不想写的代码
 
-A: compiler是不需要打包进去的，它的目的仅仅是在build的时候帮助我们创建代理类，也可以理解为帮我们写我们不想写的代码
+
+
+> Q: 这几个Module的依赖关系是怎样的
+>
+> A： api 依赖 Annotation
+>
+> ​        compiler 依赖Annotation
+>
+> ​       app 依赖 Annotation/api/ apt project(':compiler')
