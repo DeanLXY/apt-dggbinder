@@ -277,6 +277,8 @@ pulic class DggProcessor extends AbstractProcessor{
    javaFile.writeTo(System.out);
    ```
 
+   ***
+
    ​
 
    #### process方法继续介绍
@@ -318,3 +320,31 @@ pulic class DggProcessor extends AbstractProcessor{
 
    * 一个Field的父元素是当前类
    * 一个类的子元素是当前类的方法和字段
+
+#### Process方法的实现
+
+```java
+ @Override
+    public boolean process(Set<? extends TypeElement> set, RoundEnvironment env) {
+        Set<? extends Element> bindViewElements = env.getElementsAnnotatedWith(BindView.class);
+        for (Element element : bindViewElements) {
+            //BindView Field Parameter
+            boolean valid = isValid(BindView.class, element);
+//        messager.printMessage(Diagnostic.Kind.ERROR,"process...."+bindViewElements.size()+"::"+valid);
+            if (!valid) {
+                return true;
+            }
+
+            processBindView(element);
+        }
+        return false;
+    }
+```
+
+* 获取被BindView注解的Element对象（当前支持注解Field）
+
+```java
+env.getElementsAnnotatedWith(BindView.class);
+```
+
+> 当前获取到的Element为VariableElement对象
