@@ -106,8 +106,7 @@ public class MainActivity$$Proxy implements IProxy<MainActivity>{
 
 ```java
 @Target({
-        ElementType.FIELD,
-        ElementType.PARAMETER
+        ElementType.FIELD
 })
 @Retention(
         RetentionPolicy.CLASS
@@ -142,3 +141,52 @@ public @interface Click {
 >
 > auto-service 是为了帮助我们实现 META-INF/services/javax.annotation.processing.Processor 文件
 
+1. compiler 需要依赖Annotation 的Module
+2. 创建一个新的类继承AbstractProcessor
+3. 给当前Processor添加注解@AutoService(Processor.class)
+   1. 此时可以省去创建META-INF/services.javax.annotation.processing.Processor配置文件
+
+```java
+@AutoService(Processor.class)
+pulic class DggProcessor extends AbstractProcessor{
+  
+}
+```
+
+#### AbstractProcessor方法介绍
+
+1. init方法（初始化）
+
+```java
+@Override
+    public synchronized void init(ProcessingEnvironment processingEnvironment) {
+        super.init(processingEnvironment);
+        elementUtils = processingEnvironment.getElementUtils();
+        filer = processingEnvironment.getFiler();
+        messager = processingEnvironment.getMessager();
+    }
+```
+
+* elementUtils 根据元素获取当前元素的其他信息（包名 注释）
+* filer 生成代码的目录 这里默认为 app（当前项目）build/generated/source/apt/debug 目录
+* messager 在Gradle Console输出build过程中的日志信息 
+
+
+
+2. getSupportedAnnotationTypes方法
+
+   > 支持解析的注解类型
+
+3. getSupportedSourceVersion方法
+
+   > 支持jdk编译的版本一般为
+
+   ```java
+   public SourceVersion getSupportedSourceVersion() {
+           return SourceVersion.latestSupported();
+   }
+   ```
+
+4. process方法
+
+   > AbstractProcessor的核心方法，用于生成对应的代理类
