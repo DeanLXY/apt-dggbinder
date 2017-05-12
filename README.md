@@ -56,3 +56,25 @@ public void show(View view){
 }
 ```
 
+ 	3. 生成的代理类（实际就是我们没有写的那些findViewById）
+
+```java
+public class MainActivity$$Proxy implements IProxy<MainActivity>{
+  public void inject(MainActivity activity,View root){
+    target.textView = (TextView)root.findViewById(R.id.tv);
+    ...
+    root.findViewById(R.id.btn)
+        .setOnClickListener(new OnClickListener(){
+          @Override
+          public void onClick(View view){
+            show(view);
+          }
+        })
+  }
+}
+```
+
+> 注：上边这段代码需要通过代码生成
+
+## 实现步骤
+
